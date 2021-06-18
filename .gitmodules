@@ -1,0 +1,3 @@
+[submodule "super-potato"]
+	path = super-potato
+	url = git@github.com:cleptric/super-potato.git

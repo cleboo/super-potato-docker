@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+    super_potato:
+        image: super-potato
+        build: .
+        container_name: super_potato
+        restart: unless-stopped
+        ports:
+            - 8080:80
+        volumes:
+            - ./config/.env:/var/www/html/super-potato/config/.env
+        environment:
+            - DATABASE_HOST=db
+            - SUPER_POTATO_UPGRADE_DB=true
+
+    db:
+        image: mariadb:10.5
+        restart: unless-stopped
+        container_name: super_potato_database
+        environment:
+            - MYSQL_DATABASE=super-potato-dev
+            - MYSQL_USER=local
+            - MYSQL_PASSWORD=local_db_pwd
+            - MYSQL_ROOT_PASSWORD=root_pwd
+        volumes:
+            - ./storage/super-potato/db/var/lib/mysql:/var/lib/mysql
+            - ./db_seeds/super-potato-seed.sql:/docker-entrypoint-initdb.d/super-potato-seed.sql
